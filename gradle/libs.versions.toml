@@ -9,21 +9,29 @@ android-minSdk = "21"
 android-compileSdk = "34"
 android-targetSdk = "34"
 androidx-activityCompose = "1.8.2"
-androidx-core-ktx = "1.12.0"
+androidx-core = "1.12.0"
 androidx-appcompat = "1.6.1"
 androidx-compose-ui = "1.6.1"
+androidx-lifecycle = "2.7.0"
+androidx-test-core = "1.5.0"
+androidx-test-junit = "1.1.5"
 skiko = "0.7.92"
 dokka = "1.9.10"
+junit4 = "4.13.2"
 
 [libraries]
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "androidx-compose-ui" }
 androidx-ui-desktop = { group = "androidx.compose.ui", name = "ui-desktop", version.ref = "androidx-compose-ui" }
+androidx-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-common", version.ref = "androidx-lifecycle" }
+androidx-test-core = { group = "androidx.test", name= "core-ktx", version.ref= "androidx-test-core" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-junit" }
 androidx-ui-graphics-desktop = { group = "androidx.compose.ui", name = "ui-graphics-desktop", version.ref = "androidx-compose-ui" }
 skiko = { group = "org.jetbrains.skiko", name = "skiko", version.ref = "skiko" }
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 
 [plugins]
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }

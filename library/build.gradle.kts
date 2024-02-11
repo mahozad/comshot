@@ -75,11 +75,17 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                // implementation(libs.androidx.ui.desktop)
-                implementation("androidx.test:core-ktx:1.5.0")
+                implementation(libs.androidx.lifecycle)
             }
         }
         val androidUnitTest by getting {}
+        val androidInstrumentedTest by getting {
+            dependencies {
+                implementation(libs.androidx.test.core)
+                implementation(libs.androidx.test.junit)
+                implementation(libs.junit4)
+            }
+        }
         val desktopMain by getting {
             dependencies {
                 // api(libs.androidx.ui.desktop)
@@ -112,6 +118,7 @@ android {
     defaultConfig {
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
