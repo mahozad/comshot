@@ -70,10 +70,10 @@ fun Activity.captureToImageeee(comcon: CompositionContext, content: @Composable 
     addContentView(composeView, ViewGroup.LayoutParams(30_000, 30_000))
     // OR setContentView(composeView)
 
-    @OptIn(InternalComposeUiApi::class)
-    composeView.showLayoutBounds = true
-    println("width: ${composeView.measuredWidth} height: ${composeView.measuredHeight}")
-    println("hasComposition: ${composeView.hasComposition}")
+    // @OptIn(InternalComposeUiApi::class)
+    // composeView.showLayoutBounds = true
+    // println("width: ${composeView.measuredWidth} height: ${composeView.measuredHeight}")
+    // println("hasComposition: ${composeView.hasComposition}")
 
     return captureToImageeee(composeView)
 }
