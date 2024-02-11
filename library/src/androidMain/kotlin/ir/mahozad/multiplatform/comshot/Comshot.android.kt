@@ -88,6 +88,7 @@ fun Activity.captureToImageeee(comcon: CompositionContext, content: @Composable 
     // OR setContentView(composeView)
 
     composeView.measure(
+        // OR to not constrain the image size: View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
         View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
     )
