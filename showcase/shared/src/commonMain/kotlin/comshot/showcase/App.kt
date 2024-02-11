@@ -13,18 +13,31 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import comshot.showcase.shared.generated.resources.Res
 import ir.mahozad.multiplatform.comshot.captureToImageeee
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.measureTimedValue
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
+    // To check UI responsiveness
+    var counter by remember { mutableIntStateOf(0) }
+    LaunchedEffect(Unit) {
+        while (true) {
+            counter++
+            delay(100.milliseconds)
+        }
+    }
+    var time by remember { mutableStateOf<Duration?>(null) }
     var image by remember { mutableStateOf<ImageBitmap?>(null) }
-    var i by remember { mutableIntStateOf(1) }
+    var padding by remember { mutableIntStateOf(1) }
     val composable: @Composable () -> Unit = remember {
         @Composable {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "!".repeat(i))
+                Text(text = "!".repeat(padding))
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
                         painter = painterResource(Res.drawable.photo_by_lucas_chizzali_on_unsplash),
@@ -32,20 +45,23 @@ fun App() {
                         contentDescription = null
                     )
                     Text("Photo by Lucas Chizzali on Unsplash")
-                    Button({}) { Text("Example button $i") }
+                    Button({}) { Text("Example button $padding") }
                 }
             }
         }
     }
     Column {
+        Text(text = "Counter to check responsiveness: $counter")
         Button(
             onClick = {
-                image = captureToImageeee(composable)
-                i++
+                val timedValue = measureTimedValue { captureToImageeee(composable) }
+                time = timedValue.duration
+                image = timedValue.value
+                padding++
                 // ImageIO.write(image.toAwtImage(), "PNG", Path("output.png").outputStream())
             }
         ) {
-            Text("take")
+            Text(text = "Capture ${if (time != null) "(Last one took $time)" else ""}")
         }
         image?.let { Image(it, contentDescription = null) }
     }

@@ -38,6 +38,7 @@
 // https://stackoverflow.com/questions/2661536/how-to-programmatically-take-a-screenshot-on-android
 // https://stackoverflow.com/questions/29797590/android-webview-offscreen-rendering
 // https://stackoverflow.com/questions/14631682/creating-and-using-a-fragments-view-whilst-not-visible-to-the-user
+// https://stackoverflow.com/questions/11198872/execute-code-on-main-thread-in-android-without-access-to-an-activity
 
 /**
  * The compose-multiplatform-core/compose/ui/ui-test-junit4 depends on compose-multiplatform-core/compose/ui/ui-test
