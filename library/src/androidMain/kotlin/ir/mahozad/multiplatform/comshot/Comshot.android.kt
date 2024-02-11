@@ -3,6 +3,7 @@ package ir.mahozad.multiplatform.comshot
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
@@ -10,6 +11,7 @@ import android.os.*
 import android.view.*
 import androidx.annotation.DoNotInline
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.*
 import androidx.compose.ui.InternalComposeUiApi
 import androidx.compose.ui.geometry.Offset
@@ -26,6 +28,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.graphics.HardwareRendererCompat
 import kotlinx.coroutines.Dispatchers
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.Semaphore
 import java.util.concurrent.TimeUnit
 import kotlin.math.roundToInt
 
@@ -33,92 +36,70 @@ actual fun captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
     error("Use the Activity.captureToImageeee instead")
 }
 
+private var composable: @Composable () -> Unit = @Composable {}
+private var result: ImageBitmap? = null
+private var condition = Semaphore(0)
+
 fun Activity.captureToImageeee(comcon: CompositionContext, content: @Composable () -> Unit): ImageBitmap {
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    // val context = LocalContext.current
-    // val composeView = ComposeView(this)
-    // composeView.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-    // composeView.setParentCompositionContext(comcon)
-    // composeView.setContent { content() }
-    // val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    // windowManager.addView(composeView, LayoutParams())
-    // // composeView.createComposition()
-    // val myBitmap: Bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888)
-    // val myCanvas = Canvas(myBitmap)
-    // composeView.draw(myCanvas)
-    // return myBitmap.asImageBitmap()
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    // val composeView = ComposeView(context = this)
-    // AndroidView(
-    //     factory = { composeView.apply { setContent(content) } },
-    //     modifier = Modifier.wrapContentSize(unbounded = true)   //  Make sure to set unbounded true to draw beyond screen area
-    // )
-    // return composeView.drawToBitmap().asImageBitmap()
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    //////////////////////////////////////////////////
-    // LocalView.current
-    // val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    // val composeView = inflater.inflate(R.layout.temppp, findViewById(android.R.id.content), false) as ComposeView
-    val composeView = ComposeView(this)
-    val recomposer = Recomposer(Dispatchers.Unconfined)
-    composeView.setParentCompositionContext(recomposer)
-    composeView.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(object : Lifecycle() {
-        override val currentState: State get() = State.RESUMED
-        override fun addObserver(observer: LifecycleObserver) {}
-        override fun removeObserver(observer: LifecycleObserver) {}
-    }))
-    composeView.createComposition()
-    composeView.setContent(content)
-    // composeView.setBackgroundColor(android.graphics.Color.BLUE)
-
-    // Triggers rendering of the composable; only needed for ComposeView; not needed for other view types like TextView
-    // The max allowed size for widthBits + heightBits is 31 bits (30_000 requires 15 bit)
-    addContentView(composeView, ViewGroup.LayoutParams(30_000, 30_000))
-    // OR setContentView(composeView)
-
-    composeView.measure(
-        // OR to not constrain the image size: View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-        View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
-        View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
-    )
-    composeView.layout(
-        0,
-        0,
-        composeView.measuredWidth,
-        composeView.measuredHeight
-    )
-    @OptIn(InternalComposeUiApi::class)
-    composeView.showLayoutBounds = true
-    println("width: ${composeView.measuredWidth} height: ${composeView.measuredHeight}")
-    println("hasComposition: ${composeView.hasComposition}")
-
-    val bitmap = Bitmap.createBitmap(
-        composeView.measuredWidth,
-        composeView.measuredHeight,
-        Bitmap.Config.ARGB_8888
-    )
-    val canvas = Canvas(bitmap)
-    // canvas.drawColor(0xFFFF5533.toInt())
-
-    composeView.draw(canvas)
-    return bitmap.asImageBitmap()
-    // return composeView.captureToBitmap().get().asImageBitmap()
+    // Use androidx.appstartup library to get context
+    composable = content
+    val intent = Intent(this, TheTempActivit::class.java)
+    startActivityForResult(intent, -1)
+    condition.acquire()
+    return result!!
 }
 
+internal class TheTempActivit : AppCompatActivity() {
 
+    override fun onResume() {
+        super.onResume()
+        val composeView = ComposeView(this)
+        val recomposer = Recomposer(Dispatchers.Unconfined)
+        composeView.setParentCompositionContext(recomposer)
+        composeView.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(object : Lifecycle() {
+            override val currentState: State get() = State.RESUMED
+            override fun addObserver(observer: LifecycleObserver) {}
+            override fun removeObserver(observer: LifecycleObserver) {}
+        }))
+        composeView.createComposition()
+        composeView.setContent(composable)
 
+        // Triggers rendering of the composable; only needed for ComposeView; not needed for other view types like TextView
+        // The max allowed size for widthBits + heightBits is 31 bits (30_000 requires 15 bit)
+        addContentView(composeView, ViewGroup.LayoutParams(30_000, 30_000))
+        // OR setContentView(composeView)
 
+        composeView.measure(
+            // OR to not constrain the image size: View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
+            View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
+        )
+        composeView.layout(
+            0,
+            0,
+            composeView.measuredWidth,
+            composeView.measuredHeight
+        )
+        @OptIn(InternalComposeUiApi::class)
+        composeView.showLayoutBounds = true
+        println("width: ${composeView.measuredWidth} height: ${composeView.measuredHeight}")
+        println("hasComposition: ${composeView.hasComposition}")
+
+        val bitmap = Bitmap.createBitmap(
+            composeView.measuredWidth,
+            composeView.measuredHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        // canvas.drawColor(0xFFFF5533.toInt())
+
+        composeView.draw(canvas)
+        result = bitmap.asImageBitmap()
+
+        condition.release()
+        finish()
+    }
+}
 
 /**
  * Captures the underlying semantics node's surface into bitmap. This can be used to capture

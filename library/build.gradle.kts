@@ -77,6 +77,7 @@ kotlin {
             dependencies {
                 // implementation(libs.androidx.ui.desktop)
                 implementation("androidx.test:core-ktx:1.5.0")
+                implementation(libs.androidx.appcompat)
             }
         }
         val androidUnitTest by getting {}
