@@ -1,0 +1,4 @@
+public final class ir/mahozad/multiplatform/comshot/Comshot_desktopKt {
+	public static final fun captureToImageeee (Lkotlin/jvm/functions/Function2;)Landroidx/compose/ui/graphics/ImageBitmap;
+}
+

@@ -1,0 +1,34 @@
+[versions]
+gradle = "8.6"
+java = "17"
+kotlin = "1.9.22"
+kotlin-compatibility = "0.14.0"
+compose-multiplatform = "1.6.0-beta02"
+agp = "8.2.2" # Android Gradle plugin
+android-minSdk = "21"
+android-compileSdk = "34"
+android-targetSdk = "34"
+androidx-activityCompose = "1.8.2"
+androidx-core-ktx = "1.12.0"
+androidx-appcompat = "1.6.1"
+androidx-compose-ui = "1.6.1"
+skiko = "0.7.92"
+dokka = "1.9.10"
+
+[libraries]
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidx-appcompat" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "androidx-compose-ui" }
+androidx-ui-desktop = { group = "androidx.compose.ui", name = "ui-desktop", version.ref = "androidx-compose-ui" }
+androidx-ui-graphics-desktop = { group = "androidx.compose.ui", name = "ui-graphics-desktop", version.ref = "androidx-compose-ui" }
+skiko = { group = "org.jetbrains.skiko", name = "skiko", version.ref = "skiko" }
+
+[plugins]
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlin-compatibility" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
