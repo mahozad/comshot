@@ -53,10 +53,9 @@ fun Activity.MainView() {
     }
     Column {
         Text(text = "Counter to check responsiveness: $counter")
-        val compositionContext = rememberCompositionContext()
         Button(
             onClick = {
-                val timedValue = measureTimedValue { captureToImageeee(compositionContext, composable) }
+                val timedValue = measureTimedValue { captureToImageeee(composable) }
                 time = timedValue.duration
                 image = timedValue.value
                 padding++

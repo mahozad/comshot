@@ -3,12 +3,14 @@ package ir.mahozad.multiplatform.comshot
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.view.*
+import android.view.View
+import android.view.ViewGroup
+import androidx.annotation.MainThread
 import androidx.compose.runtime.*
-import androidx.compose.ui.InternalComposeUiApi
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.*
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +19,17 @@ actual fun captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
     error("Use the Activity.captureToImageeee instead")
 }
 
-fun Activity.captureToImageeee(comcon: CompositionContext, content: @Composable () -> Unit): ImageBitmap {
+/**
+ * Should be called from the main thread.
+ * For Kotlin coroutines, use the below code if you are on another thread:
+ * ```kotlin
+ * val image = withContext(Dispatchers.Main) {
+ *     myActivity/*OR this*/.captureToImage()
+ * }
+ * ```
+ */
+@MainThread
+fun Activity.captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
@@ -54,7 +66,11 @@ fun Activity.captureToImageeee(comcon: CompositionContext, content: @Composable 
     // LocalView.current
     // val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     // val composeView = inflater.inflate(R.layout.temppp, findViewById(android.R.id.content), false) as ComposeView
+
     val composeView = ComposeView(this)
+
+    // Can also acquire CompositionContext by calling val compositionContext = rememberCompositionContext()
+    // and passing it to our function as an argument and use that instead of this recomposer
     val recomposer = Recomposer(Dispatchers.Unconfined)
     composeView.setParentCompositionContext(recomposer)
     composeView.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(object : Lifecycle() {
