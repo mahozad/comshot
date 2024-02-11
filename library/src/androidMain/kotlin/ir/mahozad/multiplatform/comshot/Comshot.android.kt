@@ -82,12 +82,14 @@ fun Activity.captureToImageeee(comcon: CompositionContext, content: @Composable 
     composeView.setContent(content)
     // composeView.setBackgroundColor(android.graphics.Color.BLUE)
 
-    // Trigger rendering of the composable; only needed for ComposeView; not needed for other view types like TextView
-    // setContentView(composeView)
-    addContentView(composeView, ViewGroup.LayoutParams(10000, 10000))
+    // Triggers rendering of the composable; only needed for ComposeView; not needed for other view types like TextView
+    // The max allowed size for widthBits + heightBits is 31 bits (30_000 requires 15 bit)
+    addContentView(composeView, ViewGroup.LayoutParams(30_000, 30_000))
+    // OR setContentView(composeView)
+
     composeView.measure(
-        View.MeasureSpec.makeMeasureSpec(10000, View.MeasureSpec.AT_MOST),
-        View.MeasureSpec.makeMeasureSpec(10000, View.MeasureSpec.AT_MOST),
+        View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
+        View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
     )
     composeView.layout(
         0,
