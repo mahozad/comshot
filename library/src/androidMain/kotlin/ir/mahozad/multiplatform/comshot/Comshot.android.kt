@@ -1,33 +1,17 @@
 package ir.mahozad.multiplatform.comshot
 
 import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.Rect
-import android.os.*
 import android.view.*
-import androidx.annotation.DoNotInline
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.*
 import androidx.compose.ui.InternalComposeUiApi
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.*
-import androidx.compose.ui.semantics.SemanticsNode
-import androidx.compose.ui.semantics.SemanticsProperties
-import androidx.compose.ui.test.*
-import androidx.compose.ui.window.DialogWindowProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.platform.graphics.HardwareRendererCompat
 import kotlinx.coroutines.Dispatchers
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.TimeUnit
-import kotlin.math.roundToInt
 
 actual fun captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
     error("Use the Activity.captureToImageeee instead")
@@ -80,83 +64,40 @@ fun Activity.captureToImageeee(comcon: CompositionContext, content: @Composable 
     }))
     composeView.createComposition()
     composeView.setContent(content)
-    // composeView.setBackgroundColor(android.graphics.Color.BLUE)
 
     // Triggers rendering of the composable; only needed for ComposeView; not needed for other view types like TextView
     // The max allowed size for widthBits + heightBits is 31 bits (30_000 requires 15 bit)
     addContentView(composeView, ViewGroup.LayoutParams(30_000, 30_000))
     // OR setContentView(composeView)
 
-    composeView.measure(
-        // OR to not constrain the image size: View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-        View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
-        View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
-    )
-    composeView.layout(
-        0,
-        0,
-        composeView.measuredWidth,
-        composeView.measuredHeight
-    )
     @OptIn(InternalComposeUiApi::class)
     composeView.showLayoutBounds = true
     println("width: ${composeView.measuredWidth} height: ${composeView.measuredHeight}")
     println("hasComposition: ${composeView.hasComposition}")
 
+    return captureToImageeee(composeView)
+}
+
+fun captureToImageeee(view: View): ImageBitmap {
+    view.measure(
+        // OR to not constrain the image size: View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
+        View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),
+    )
+    view.layout(0, 0, view.measuredWidth, view.measuredHeight)
     val bitmap = Bitmap.createBitmap(
-        composeView.measuredWidth,
-        composeView.measuredHeight,
+        view.measuredWidth,
+        view.measuredHeight,
         Bitmap.Config.ARGB_8888
     )
     val canvas = Canvas(bitmap)
-    // canvas.drawColor(0xFFFF5533.toInt())
-
-    composeView.draw(canvas)
+    view.draw(canvas)
     return bitmap.asImageBitmap()
-    // return composeView.captureToBitmap().get().asImageBitmap()
 }
 
 
 
 
-
-}
-
-@ExperimentalTestApi
-@RequiresApi(Build.VERSION_CODES.O)
-private fun processMultiWindowScreenshot(
-    node: SemanticsNode,
-    testContext: TestContext
-): ImageBitmap {
-
-    (node.root as ViewRootForTest).view.forceRedraw(testContext)
-
-    val nodePositionInScreen = findNodePosition(node)
-    val nodeBoundsInRoot = node.boundsInRoot
-
-    val combinedBitmap = InstrumentationRegistry.getInstrumentation().uiAutomation.takeScreenshot()
-
-    val finalBitmap = Bitmap.createBitmap(
-        combinedBitmap,
-        (nodePositionInScreen.x + nodeBoundsInRoot.left).roundToInt(),
-        (nodePositionInScreen.y + nodeBoundsInRoot.top).roundToInt(),
-        nodeBoundsInRoot.width.roundToInt(),
-        nodeBoundsInRoot.height.roundToInt()
-    )
-    return finalBitmap.asImageBitmap()
-}
-
-private fun findNodePosition(
-    node: SemanticsNode
-): Offset {
-    val view = (node.root as ViewRootForTest).view
-    val locationOnScreen = intArrayOf(0, 0)
-    view.getLocationOnScreen(locationOnScreen)
-    val x = locationOnScreen[0]
-    val y = locationOnScreen[1]
-
-    return Offset(x.toFloat(), y.toFloat())
-}
 
 // /**
 //  * Captures the underlying semantics node's surface into bitmap. This can be used to capture
