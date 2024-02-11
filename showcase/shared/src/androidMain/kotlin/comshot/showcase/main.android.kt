@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import comshot.showcase.shared.generated.resources.Res
-import ir.mahozad.multiplatform.comshot.captureToImageeee
+import ir.mahozad.multiplatform.comshot.captureToImage
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
@@ -55,7 +55,7 @@ fun Activity.MainView() {
         Text(text = "Counter to check responsiveness: $counter")
         Button(
             onClick = {
-                val timedValue = measureTimedValue { captureToImageeee(composable) }
+                val timedValue = measureTimedValue { captureToImage(this@MainView, composable) }
                 time = timedValue.duration
                 image = timedValue.value
                 padding++

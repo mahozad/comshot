@@ -15,21 +15,25 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import kotlinx.coroutines.Dispatchers
 
-actual fun captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
-    error("Use the Activity.captureToImageeee instead")
+actual fun captureToImage(composable: @Composable () -> Unit): ImageBitmap {
+    error("Use the captureToImage(Activity, @Composable () -> Unit) instead")
 }
 
 /**
  * Should be called from the main thread.
- * For Kotlin coroutines, use the below code if you are on another thread:
+ * You can use [Activity.runOnUiThread] if you are on another thread.
+ * For Kotlin coroutines, use the below code if your coroutine is on another thread:
  * ```kotlin
  * val image = withContext(Dispatchers.Main) {
- *     myActivity/*OR this*/.captureToImage()
+ *     captureToImage(myActivity/*OR this*/, composable)
  * }
  * ```
  */
 @MainThread
-fun Activity.captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
+fun captureToImage(
+    activity: Activity,
+    composable: @Composable () -> Unit
+): ImageBitmap {
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
@@ -67,7 +71,7 @@ fun Activity.captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
     // val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
     // val composeView = inflater.inflate(R.layout.temppp, findViewById(android.R.id.content), false) as ComposeView
 
-    val composeView = ComposeView(this)
+    val composeView = ComposeView(activity)
 
     // Can also acquire CompositionContext by calling val compositionContext = rememberCompositionContext()
     // and passing it to our function as an argument and use that instead of this recomposer
@@ -79,11 +83,11 @@ fun Activity.captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
         override fun removeObserver(observer: LifecycleObserver) {}
     }))
     composeView.createComposition()
-    composeView.setContent(content)
+    composeView.setContent(composable)
 
     // Triggers rendering of the composable; only needed for ComposeView; not needed for other view types like TextView
     // The max allowed size for widthBits + heightBits is 31 bits (30_000 requires 15 bit)
-    addContentView(composeView, ViewGroup.LayoutParams(30_000, 30_000))
+    activity.addContentView(composeView, ViewGroup.LayoutParams(30_000, 30_000))
     // OR setContentView(composeView)
 
     // @OptIn(InternalComposeUiApi::class)
@@ -91,10 +95,10 @@ fun Activity.captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
     // println("width: ${composeView.measuredWidth} height: ${composeView.measuredHeight}")
     // println("hasComposition: ${composeView.hasComposition}")
 
-    return captureToImageeee(composeView)
+    return captureToImage(composeView)
 }
 
-fun captureToImageeee(view: View): ImageBitmap {
+fun captureToImage(view: View): ImageBitmap {
     view.measure(
         // OR to not constrain the image size: View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         View.MeasureSpec.makeMeasureSpec(15_000, View.MeasureSpec.AT_MOST),

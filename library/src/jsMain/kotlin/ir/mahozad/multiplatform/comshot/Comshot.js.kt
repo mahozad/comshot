@@ -6,11 +6,11 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runSkikoComposeUiTest
 
 @OptIn(ExperimentalTestApi::class)
-actual fun captureToImageeee(content: @Composable () -> Unit): ImageBitmap {
+actual fun captureToImage(composable: @Composable () -> Unit): ImageBitmap {
     // waitForIdle()
     var image: ImageBitmap? = null
     runSkikoComposeUiTest {
-        setContent(content)
+        setContent(composable)
         image = captureToImage()
     }
     return image!!

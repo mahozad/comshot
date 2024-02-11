@@ -1,6 +1,6 @@
 public final class ir/mahozad/multiplatform/comshot/Comshot_androidKt {
-	public static final fun captureToImage (Landroidx/compose/ui/test/SemanticsNodeInteraction;)Landroidx/compose/ui/graphics/ImageBitmap;
-	public static final fun captureToImageeee (Landroid/app/Activity;Landroidx/compose/runtime/CompositionContext;Lkotlin/jvm/functions/Function2;)Landroidx/compose/ui/graphics/ImageBitmap;
-	public static final fun captureToImageeee (Lkotlin/jvm/functions/Function2;)Landroidx/compose/ui/graphics/ImageBitmap;
+	public static final fun captureToImage (Landroid/app/Activity;Lkotlin/jvm/functions/Function2;)Landroidx/compose/ui/graphics/ImageBitmap;
+	public static final fun captureToImage (Landroid/view/View;)Landroidx/compose/ui/graphics/ImageBitmap;
+	public static final fun captureToImage (Lkotlin/jvm/functions/Function2;)Landroidx/compose/ui/graphics/ImageBitmap;
 }
 

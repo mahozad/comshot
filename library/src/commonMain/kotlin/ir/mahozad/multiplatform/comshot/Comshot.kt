@@ -51,4 +51,4 @@ package ir.mahozad.multiplatform.comshot
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 
-expect fun captureToImageeee(content: @Composable () -> Unit): ImageBitmap
+expect fun captureToImage(composable: @Composable () -> Unit): ImageBitmap
