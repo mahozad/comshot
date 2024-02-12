@@ -13,12 +13,6 @@
 // https://github.com/JetBrains/compose-multiplatform-core/blob/jb-main/compose/ui/ui-test/src/androidMain/kotlin/androidx/compose/ui/test/AndroidImageHelpers.android.kt
 // https://github.com/JetBrains/compose-multiplatform-core/blob/jb-main/compose/ui/ui-test/src/androidMain/kotlin/androidx/compose/ui/test/android/WindowCapture.android.kt
 
-// Similar libraries:
-// https://github.com/PatilShreyas/Capturable
-// https://github.com/SmartToolFactory/Compose-Screenshot
-// https://github.com/JohannRosenberg/bitmap-from-composable
-// https://github.com/Vipul12Thawre/JetCapture
-
 // StackOverflow Posts:
 // https://stackoverflow.com/questions/63861095/jetpack-compose-take-screenshot-of-composable-function
 // https://stackoverflow.com/questions/74450838/convert-a-composable-view-into-image-in-jetpack-compose
