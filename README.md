@@ -2,6 +2,8 @@
 [![Compose Multiplatform version]][Compose Multiplatform release]
 [![Latest Maven Central release]][Library on Maven Central]
 
+<br>
+
 <div align="center">
     <img src="asset/logo-optimized.svg" width="100px"/>
 </div>
