@@ -159,8 +159,8 @@ tasks.dokkaHtml {
     // See the buildscript block above and also
     // https://github.com/Kotlin/dokka/issues/2406
     pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-        customAssets = listOf(file("../asset/logo-icon.svg"))
-        customStyleSheets = listOf(file("../asset/logo-styles.css"))
+        customAssets = listOf(file("../asset/logo-optimized.svg"))
+        customStyleSheets = listOf(file("../asset/dokka-styles.css"))
         separateInheritedMembers = true
     }
 
@@ -229,9 +229,9 @@ publishing {
             url = "https://mahozad.ir/${project.name}"
             name = project.name
             description = """
-                Comshot
+                Multiplatform library to capture image of Composables (and also Android Views).
             """.trimIndent()
-            inceptionYear = "2023"
+            inceptionYear = "2024"
             licenses {
                 license {
                     name = "Apache-2.0 License"
