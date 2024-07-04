@@ -19,6 +19,7 @@ import org.jetbrains.compose.resources.painterResource
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.measureTimedValue
+import comshot.showcase.shared.generated.resources.Photo_by_Lucas_Chizzali_on_Unsplash
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -40,7 +41,7 @@ fun App() {
                 Text(text = "!".repeat(padding))
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
-                        painter = painterResource(Res.drawable.photo_by_lucas_chizzali_on_unsplash),
+                        painter = painterResource(Res.drawable.Photo_by_Lucas_Chizzali_on_Unsplash),
                         modifier = Modifier.size(200.dp),
                         contentDescription = null
                     )

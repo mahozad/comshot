@@ -29,7 +29,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: "temurin" # OR adopt OR microsoft OR...
-          java-version: "17"
+          java-version: "21"
       - name: Decode the private GPG key file stored in GitHub secrets
         run: echo $SIGNING_KEY_CONTENT_BASE64 | base64 -d > private-key.gpg
       - name: Release to local repository

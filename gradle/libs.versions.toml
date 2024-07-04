@@ -1,22 +1,22 @@
 [versions]
-gradle = "8.6"
-java = "17"
-kotlin = "1.9.22"
+gradle = "8.8"
+java = "21"
+kotlin = "2.0.0"
 kotlin-compatibility = "0.14.0"
-compose-multiplatform = "1.6.0-beta02"
-agp = "8.2.2" # Android Gradle plugin
+compose-multiplatform = "1.6.11"
+agp = "8.3.2" # Android Gradle plugin
 android-minSdk = "21"
 android-compileSdk = "34"
 android-targetSdk = "34"
-androidx-activityCompose = "1.8.2"
-androidx-core = "1.12.0"
-androidx-appcompat = "1.6.1"
-androidx-compose-ui = "1.6.1"
-androidx-lifecycle = "2.7.0"
-androidx-test-core = "1.5.0"
-androidx-test-junit = "1.1.5"
-skiko = "0.7.92"
-dokka = "1.9.10"
+androidx-activityCompose = "1.9.0"
+androidx-core = "1.13.1"
+androidx-appcompat = "1.7.0"
+androidx-compose-ui = "1.6.8"
+androidx-lifecycle = "2.8.3"
+androidx-test-core = "1.6.1"
+androidx-test-junit = "1.2.1"
+skiko = "0.8.9"
+dokka = "1.9.20"
 junit4 = "4.13.2"
 
 [libraries]
@@ -37,6 +37,7 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "kotlin-compatibility" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
