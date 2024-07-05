@@ -184,7 +184,7 @@ tasks.dokkaHtml {
     }
 }
 
-val properties = Properties().apply {
+val localProperties = Properties().apply {
     runCatching { rootProject.file("local.properties") }
         .getOrNull()
         .takeIf { it?.exists() ?: false }
@@ -194,11 +194,11 @@ val properties = Properties().apply {
 // For information about signing.* properties,
 // see comments on signing { ... } block below
 val environment: Map<String, String?> = System.getenv()
-extra["ossrhUsername"] = properties["ossrh.username"] as? String
+extra["ossrhUsername"] = localProperties["ossrh.username"] as? String
     ?: environment["OSSRH_USERNAME"] ?: ""
-extra["ossrhPassword"] = properties["ossrh.password"] as? String
+extra["ossrhPassword"] = localProperties["ossrh.password"] as? String
     ?: environment["OSSRH_PASSWORD"] ?: ""
-extra["githubToken"] = properties["github.token"] as? String
+extra["githubToken"] = localProperties["github.token"] as? String
     ?: environment["GITHUB_TOKEN"] ?: ""
 
 publishing {
