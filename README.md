@@ -9,9 +9,10 @@
 </div>
 
 # Comshot
-Multiplatform library to take/capture screenshot/snapshot/picture/image of composables (and also Android Views).
+Multiplatform library to take/capture screenshot/snapshot/picture/image of @Composables (and also Android Views).
 
-⚠️ This is very experimental and tested only on Windows and Android.
+⚠️⚠️ This is very experimental and tested only on Windows and Android. ⚠️⚠️  
+⚠️⚠️ It may not be suited for use in production code. ⚠️⚠️
 
 ## Usage
 
