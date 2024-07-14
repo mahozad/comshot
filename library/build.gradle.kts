@@ -90,7 +90,23 @@ kotlin {
         val desktopMain by getting {
             dependencies {
                 // api(libs.androidx.ui.desktop)
-                // implementation("org.jetbrains.skiko:skiko-awt-runtime-windows-x64:0.7.92")
+                // See https://github.com/JetBrains/compose-multiplatform/blob/master/gradle-plugins/compose/src/main/kotlin/org/jetbrains/compose/internal/utils/osUtils.kt
+                val osName = System.getProperty("os.name")
+                val osArch = System.getProperty("os.arch")
+                val targetOs = when {
+                    osName.equals("Mac OS X", ignoreCase = true) -> "macos"
+                    osName.startsWith("Linux", ignoreCase = true) -> "linux"
+                    osName.startsWith("Win", ignoreCase = true) -> "windows"
+                    else -> error("Unsupported OS: $osName")
+                }
+                val targetArch = when (osArch) {
+                    "x86_64", "amd64" -> "x64"
+                    "aarch64" -> "arm64"
+                    else -> error("Unsupported architecture: $osArch")
+                }
+                val target = "${targetOs}-${targetArch}"
+                val version = libs.versions.skiko.get()
+                implementation("org.jetbrains.skiko:skiko-awt-runtime-$target:$version")
             }
         }
         val desktopTest by getting {
