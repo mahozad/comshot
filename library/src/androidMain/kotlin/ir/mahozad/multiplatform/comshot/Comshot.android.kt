@@ -3,6 +3,7 @@ package ir.mahozad.multiplatform.comshot
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -35,9 +37,16 @@ fun captureToImage(
     activity: Activity,
     composable: @Composable () -> Unit
 ): ImageBitmap {
+
+
+    // TODO: Remove the below check and wrap the code in this block
+    // Handler(Looper.getMainLooper()).post {
+    //    // Code that runs in main
+    // }
     if (Looper.myLooper() != Looper.getMainLooper()) {
         error("This function should be called from the main (UI) thread. See the function documentation.")
     }
+
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
     //////////////////////////////////////////////////
