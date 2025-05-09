@@ -8,19 +8,24 @@
     <img src="asset/logo-optimized.svg" width="100px"/>
 </div>
 
+# 🕯️ Library retired
+You probably no longer need this library (or similar libraries)
+because Jetpack Compose and Compose Multiplatform [now support taking screenshots][Added GraphicsLayer.toImageBitmap].
+See [Jetpack Compose take screenshot of composable function][Take screenshot of Composable function].
+
 # Comshot
 Multiplatform library to take/capture screenshot/snapshot/picture/image of @Composables (and also Android Views).
 
-⚠️⚠️ This is very experimental and tested only on Windows and Android. ⚠️⚠️  
-⚠️⚠️ It may not be suited for use in production code. ⚠️⚠️
+## Warning
+🚧 This library is experimental and tested only on Windows and Android. <br/>
+🚧 This library may not be suited for use in production code.
 
 ## Usage
-
 ```kotlin
 implementation("ir.mahozad.multiplatform:comshot:0.3.0")
 ```
 
-  - Android (Composable)  
+  - Android (`@Composable`s)  
     You need to pass your activity to `captureToImage`. Also, it should be called from the Main aka UI thread (see its KDoc for more information).
     ```kotlin
     @Composable
@@ -51,7 +56,7 @@ implementation("ir.mahozad.multiplatform:comshot:0.3.0")
         }
     }
     ```
-  - Android (View)
+  - Android (`View`s)
     ```kotlin
     val view = findViewById<TextView>(R.id.myTextView)
     val screenshot = captureToImage(view)
@@ -102,3 +107,5 @@ implementation("ir.mahozad.multiplatform:comshot:0.3.0")
 [Kotlin release]: https://github.com/JetBrains/kotlin/releases/tag/v2.0.0
 [Compose Multiplatform release]: https://github.com/JetBrains/compose-multiplatform/releases/tag/v1.6.11
 [Library on Maven Central]: https://repo1.maven.org/maven2/ir/mahozad/multiplatform/comshot/0.3.0/
+[Added GraphicsLayer.toImageBitmap]: https://developer.android.com/jetpack/androidx/releases/compose-ui#1.7.0-alpha06:~:text=Added%20GraphicsLayer%23toImageBitmap,onto%20software%20rendering
+[Take screenshot of Composable function]: https://stackoverflow.com/a/79233218/8583692
